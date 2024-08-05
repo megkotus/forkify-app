@@ -1,7 +1,4 @@
-// Import parent class
 import View from './View.js';
-
-// For Parcel to see the images
 import icons from 'url:../../img/icons.svg';
 
 import Fraction from 'fraction.js';

@@ -38,22 +38,18 @@ class PaginationView extends View {
             </button>
         `;
 
-        // Page 1, and there are other pages
         if(curPage === 1 && numPages > 1) {
             return nextButtonMarkup;
         };
 
-        // Last page
         if(curPage === numPages && numPages > 1) {
             return prevButtonMarkup;
         };        
         
-        // Other page
         if(curPage < numPages) {
             return nextButtonMarkup + prevButtonMarkup;
         };        
         
-        // Page 1, and there are NO other pages
         return '';
     };
 }

@@ -35,7 +35,6 @@ const controlRecipes = async function() {
     recipeView.render(model.state.recipe);
     
   } catch (err) {
-    // We could pass a message though
     recipeView.renderError();
     console.error(err);
   };
