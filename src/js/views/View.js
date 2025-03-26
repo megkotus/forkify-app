@@ -1,75 +1,81 @@
 import icons from 'url:../../img/icons.svg';
 
 export default class View {
-    _data;
+  _data;
 
-    /**
-     * Render the recieved object to the DOM
-     * @param {Object | Object[]} data The data to be rendered 
-     * @param {boolean} [render=true] If false, create markup string instead of rendering it to the DOM 
-     * @returns {undefined | string} A markup string is returned if render=false
-     * @this {Object} View instance
-     * @author rita
-     */
+  /**
+   * Render the recieved object to the DOM
+   * @param {Object | Object[]} data The data to be rendered
+   * @param {boolean} [render=true] If false, create markup string instead of rendering it to the DOM
+   * @returns {undefined | string} A markup string is returned if render=false
+   * @this {Object} View instance
+   * @author rita
+   */
 
-    render(data, render = true) {
-        if(!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
+  render(data, render = true) {
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
 
-        this._data = data;
-        const markup = this._generateMarkup();
+    this._data = data;
+    const markup = this._generateMarkup();
 
-        if(!render) return markup;
+    if (!render) return markup;
 
-        this._clear();
-        this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    };
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
 
-    _clear() {
-        this._parentElement.innerHTML = '';
-    };
+  _clear() {
+    this._parentElement.innerHTML = '';
+  }
 
-    update(data) {
-        if(!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
+  update(data) {
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
 
-        this._data = data;
-        const newMarkup = this._generateMarkup();
+    this._data = data;
+    const newMarkup = this._generateMarkup();
 
-        // Create a DOM copy
-        const newDOM = document.createRange().createContextualFragment(newMarkup);
-        // Select all elements
-        const newElements = Array.from(newDOM.querySelectorAll('*'));
-        const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+    // Create a DOM copy
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    // Select all elements
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
 
-        // Only good for small applications
-        newElements.forEach((newEl, i) => {
-            const curEl = curElements[i];
-            
-            // Update changed TEXT
-            if(!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') {
-                curEl.textContent = newEl.textContent;
-            };
+    // Only good for small applications
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
 
-            // Update changed ATTRIBUTES
-            if(!newEl.isEqualNode(curEl)) {
-                Array.from(newEl.attributes).forEach(attr => curEl.setAttribute(attr.name, attr.value))
-            };
-        });
-    };
+      // Update changed TEXT
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        curEl.textContent = newEl.textContent;
+      }
 
-    renderSpinner() {
-        const markup = 
-            `<div class="spinner">
+      // Update changed ATTRIBUTES
+      if (!newEl.isEqualNode(curEl)) {
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
+      }
+    });
+  }
+
+  renderSpinner() {
+    const markup = `<div class="spinner">
                 <svg>
                  <use href="${icons}#icon-loader"></use>
                 </svg>
              </div>`;
-      
-        this._clear();
-        this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    };
 
-    renderError(message = this._errorMessage) {
-        const markup = `
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderError(message = this._errorMessage) {
+    const markup = `
             <div class="error">
                 <div>
                     <svg>
@@ -80,12 +86,12 @@ export default class View {
             </div>
         `;
 
-        this._clear();
-        this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    };
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
 
-    renderMessage(message = this._message) {
-        const markup = `
+  renderMessage(message = this._message) {
+    const markup = `
             <div class="message">
                 <div>
                     <svg>
@@ -96,7 +102,7 @@ export default class View {
             </div>
         `;
 
-        this._clear();
-        this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    };
-};
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+}
